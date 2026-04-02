@@ -1,10 +1,10 @@
 def rank(candidates, mode):
-    time, fare = 0, 0
     duration = []
     cost = []
     final_candidates = []
     for i in range(len(candidates)):
         route = []
+        time, fare = 0, 0
         for j in range(len(candidates[i])):
             time += candidates[i][j][1]
             fare += candidates[i][j][2]
