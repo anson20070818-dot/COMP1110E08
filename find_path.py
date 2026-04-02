@@ -3,6 +3,7 @@ def find_path(current, destination, candidate, candidates, network, visited):
         if len(network[current]) >= 1:
             for i in range (len(network[current])):
                 if network[current][i][0] == destination:
+                    candidate.append((network[current][i][0],network[current][i][1],network[current][i][2],network[current][i][3]))
                     candidates.append([stop for stop in candidate])
                 elif not(network[current][i][0] in visited):
                     temp = [stop for stop in candidate]
