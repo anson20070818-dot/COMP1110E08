@@ -1,4 +1,4 @@
-def rank(candidates, mode):    # 1:time, 2:cost, 3:transfers
+def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 3:transfers
     final_candidates = []
     for candidate in candidates:
         route = []
@@ -9,15 +9,8 @@ def rank(candidates, mode):    # 1:time, 2:cost, 3:transfers
             fare += segment[2]
             route.append((segment[0],segment[3]))
         final_candidates.append([route,time,fare, number_of_transfer])
-    if mode == 1:
-        final_candidates = sorted(final_candidates, key=lambda x: (x[1], x[2], x[3]))
-        return final_candidates
-    elif mode == 2:
-        final_candidates = sorted(final_candidates, key=lambda x: (x[2], x[1], x[3]))
-        return final_candidates
-    elif mode == 3:
-        final_candidates = sorted(final_candidates, key=lambda x: (x[3], x[1], x[2]))
-        return final_candidates
+    third_preference = list({1,2,3}-{first_preference,second_preference})[0]
+    return sorted(final_candidates, key=lambda x: (x[first_preference], x[second_preference], x[third_preference]))
 
 def count_transfer(candidate):
     transport_mode = []
