@@ -1,20 +1,42 @@
-def rank(candidates, mode):
-    duration = []
-    cost = []
+def rank(candidates, mode):    # 1:time, 2:cost, 3:transfers
     final_candidates = []
-    for i in range(len(candidates)):
+    for candidate in candidates:
         route = []
         time, fare = 0, 0
-        for j in range(len(candidates[i])):
-            time += candidates[i][j][1]
-            fare += candidates[i][j][2]
-            route.append((candidates[i][j][0],candidates[i][j][3]))
-        duration.append(time)
-        cost.append(fare)
-        final_candidates.append([route,duration[i],cost[i]])
-    if mode == "time":
-        final_candidates = sorted(final_candidates, key=lambda x: (x[1], x[2]))
+        number_of_transfer = count_transfer(candidate)
+        for segment in candidate:
+            time += segment[1]
+            fare += segment[2]
+            route.append((segment[0],segment[3]))
+        final_candidates.append([route,time,fare, number_of_transfer])
+    if mode == 1:
+        final_candidates = sorted(final_candidates, key=lambda x: (x[1], x[2], x[3]))
         return final_candidates
-    elif mode == "cost":
-        final_candidates = sorted(final_candidates, key=lambda x: (x[2], x[1]))
+    elif mode == 2:
+        final_candidates = sorted(final_candidates, key=lambda x: (x[2], x[1], x[3]))
         return final_candidates
+    elif mode == 3:
+        final_candidates = sorted(final_candidates, key=lambda x: (x[3], x[1], x[2]))
+        return final_candidates
+
+def count_transfer(candidate):
+    transport_mode = []
+    for i in range(len(candidate)):
+        transport_mode.append(candidate[i][3])
+    if len(transport_mode) == 1:
+        return 0
+    count = 0
+    if transport_mode[0] == 'Walking' and (('Bus' in transport_mode) or ('MTR' in transport_mode)):
+        count += 1
+    while ('Walking' in transport_mode):
+        pos = transport_mode.index('Walking')
+        if pos == 0 or pos == len(transport_mode) - 1:
+            transport_mode.pop(pos)
+        else:
+            if transport_mode[pos-1] == transport_mode[pos+1]:
+                count += 1
+            transport_mode.pop(pos)
+    for i in range(len(transport_mode)-1):
+        if transport_mode[i] != transport_mode[i+1]:
+            count += 1
+    return count
