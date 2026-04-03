@@ -13,3 +13,12 @@ def find_path(current, destination, candidate, candidates, network, visited):
                     find_path(network[current][i][0], destination, candidate, candidates, network, visited)
                     candidate = [stop for stop in temp]
                     visited = [stop for stop in temp_visited]
+
+
+def get_candidates(origin,destination,network):
+    candidates = []
+    candidate = []
+    visited = [origin]
+    find_path(origin,destination,candidate,candidates,network,visited)
+    return candidates
+
