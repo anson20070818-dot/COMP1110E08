@@ -9,7 +9,7 @@ def find_path(current, destination, candidate, candidates, network, visited):
                     temp = [stop for stop in candidate]
                     temp_visited = [stop for stop in visited]
                     visited.append(network[current][i][0])
-                    candidate.append((network[current][i][0],network[current][i][3]))
+                    candidate.append((network[current][i][0],network[current][i][1],network[current][i][2],network[current][i][3]))
                     find_path(network[current][i][0], destination, candidate, candidates, network, visited)
                     candidate = [stop for stop in temp]
                     visited = [stop for stop in temp_visited]
