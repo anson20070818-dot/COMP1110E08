@@ -30,7 +30,7 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
     return sorted(final_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
     
 
-def filter_and_sort(candidates, filter, first_preference, second_preference):
+def filter_sort(candidates, filter, first_preference, second_preference):
     return rank(filter_mode(candidates,filter), first_preference, second_preference)
 
 
