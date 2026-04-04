@@ -1,4 +1,21 @@
-def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 3:transfers
+def filter_mode(candidates, filter):    # 1: Bus, 2: MTR, 3: Walking, 4: no filter
+    if filter == 4:
+       return candidates
+    filtered_candidates = []
+    mode = ['Bus','MTR','Walking']
+    for candidate in candidates:
+        transport_mode = get_transport_mode(candidate)
+        if mode[filter-1] not in transport_mode:
+            filtered_candidates.append(candidate)
+    return filtered_candidates
+
+
+def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 3:transfers, 4: no preference
+    if second_preference == 4:
+        if first_preference == 1:
+            second_preference = 2
+        else:
+            second_preference = 1
     final_candidates = []
     for candidate in candidates:
         route = []
@@ -10,8 +27,12 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
             route.append((segment[0],segment[3]))
         final_candidates.append([route,time,fare, number_of_transfer])
     third_preference = list({1,2,3}-{first_preference,second_preference})[0]
-    return sorted(final_candidates, key=lambda x: (x[first_preference], x[second_preference], x[third_preference]))
+    return sorted(final_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
     
+
+def filter_and_sort(candidates, filter, first_preference, second_preference):
+    return rank(filter_mode(candidates,filter), first_preference, second_preference)
+
 
 def count_transfer(transport_mode):
     if len(transport_mode) == 1:
@@ -31,3 +52,11 @@ def count_transfer(transport_mode):
         if transport_mode[i] != transport_mode[i+1]:
             count += 1
     return count
+
+
+def get_transport_mode(candidate):
+    transport_mode = []
+    for i in range(len(candidate)):
+        transport_mode.append(candidate[i][3])
+    return transport_mode
+
