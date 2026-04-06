@@ -80,17 +80,21 @@ def main():
                     
                     print("\nProcessing top journeys...")
                     processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2)
-                    print("\033[32mProcessing finished!\033[0m\n")
-                    if preference2 == 4:
-                        print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
+                    if len(processed_journeys) == 0:
+                        print("\x1b[31mNo possible journeys found!\033[0m")
                     else:
-                        print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "then", ("Fastest", "Cheapest", "Least Transfers")[preference2-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
-                    for i in range(0, 3):
-                        print(f"{origin} ", end="")
-                        for segment in processed_journeys[i][0]:
-                            print(f"<{segment[1]}>--> {segment[0]} ", end="")
-                        print(f"\nTotal duration: {processed_journeys[i][1]:<6}Total cost: {processed_journeys[i][2]:<10}Total transfers: {processed_journeys[i][3]:<5}\n")
-                    
+                        print("\033[32mProcessing finished!\033[0m\n")
+                        if preference2 == 4:
+                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
+                        else:
+                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "then", ("Fastest", "Cheapest", "Least Transfers")[preference2-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
+                        for i in range(0, 3):
+                            if len(processed_journeys) > i:
+                                print(f"{origin} ", end="")
+                                for segment in processed_journeys[i][0]:
+                                    print(f"<{segment[1]}>--> {segment[0]} ", end="")
+                                print(f"\nTotal duration: {processed_journeys[i][1]:<6}Total cost: {processed_journeys[i][2]:<10}Total transfers: {processed_journeys[i][3]:<5}\n")
+                        
                     print("\nAwaiting next command...\n1: View Top Journeys\n2: Return to Start")
 
                 command = readkey()
