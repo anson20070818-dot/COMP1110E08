@@ -23,6 +23,7 @@ def load_network(filename="network.csv"):
         file.seek(0)
         reader = csv.DictReader(file)
 
+        valid_segments = 0
         for i, row in enumerate(reader):
             try:
                 segment = []
@@ -51,6 +52,7 @@ def load_network(filename="network.csv"):
                         segments[row['To_Stop'].strip()].append(segment_reverse)
                 else:
                     segments[row['To_Stop'].strip()] = [segment_reverse]
+                valid_segments += 1
             except:
                 print(f"\033[33mWarning: Skipped bad row (row {i+1}) in the file\033[0m")
                 continue
@@ -60,8 +62,12 @@ def load_network(filename="network.csv"):
         if len(segments) == 0:
             print("\x1b[31mError: No valid segments in the file!\x1b[0m")
             return None
+        
+        if valid_segments*2 > 100:
+            print("\x1b[31mError: Total segments exceeded 100! Try a smaller network\x1b[0m")
+            return None
 
-        print("\033[32mSuccessfully loaded", len(segments), "stations from the file\x1b[0m")
+        print("\033[32mSuccessfully loaded", len(segments), "stops from the file\x1b[0m")
         return segments
 
     except FileNotFoundError:
