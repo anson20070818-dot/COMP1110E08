@@ -1,10 +1,20 @@
-def filter_mode(candidates, filter, transports):    
-    if filter == len(transports)+1:
+def filter_sort(candidates, filter_transports, first_preference, second_preference):
+    filtered_candidates = filter_mode(candidates,filter_transports)
+    return rank(filtered_candidates, first_preference, second_preference)
+
+
+def filter_mode(candidates, filter_transports):    
+    if len(filter_transports) == 0:
        return candidates
     filtered_candidates = []
     for candidate in candidates:
-        transport_mode = get_transport_mode(candidate)
-        if transports[filter-1] not in transport_mode:
+        transport_of_candidate = get_transport_modes(candidate)
+        exists = False
+        for transport in filter_transports: 
+           if transport in transport_of_candidate:
+               exists = True
+               break
+        if not exists:
             filtered_candidates.append(candidate)
     return filtered_candidates
 
@@ -19,7 +29,7 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
     for candidate in candidates:
         route = []
         time, fare = 0, 0
-        number_of_transfer = count_transfer(get_transport_mode(candidate))
+        number_of_transfer = count_transfer(get_transport_modes(candidate))
         for segment in candidate:
             time += segment[1]
             fare += segment[2]
@@ -27,10 +37,6 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
         final_candidates.append([route,time,fare, number_of_transfer])
     third_preference = list({1,2,3}-{first_preference,second_preference})[0]
     return sorted(final_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
-    
-
-def filter_sort(candidates, filter, first_preference, second_preference, transports):
-    return rank(filter_mode(candidates,filter, transports), first_preference, second_preference)
 
 
 def count_transfer(transport_mode):
@@ -51,10 +57,8 @@ def count_transfer(transport_mode):
     return count
 
 
-
-def get_transport_mode(candidate):
-    transport_mode = []
-    for i in range(len(candidate)):
-        transport_mode.append(candidate[i][3])
-    return transport_mode
-
+def get_transport_modes(candidate):
+    transport_of_candidate = []
+    for segment in candidate:
+        transport_of_candidate.append(segment[3])
+    return transport_of_candidate
