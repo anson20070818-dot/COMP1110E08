@@ -72,14 +72,18 @@ def main():
                         preference2 = int(preference2) + 1
                     preference2 = int(preference2)
                     
-                    print("\nChoose transport filter (if any):\n1: Bus\n2: Metro\n3: Walking\n4: No Filter")
+                    transports = network_analysis.get_distinct_transport(network)
+                    print("\nChoose transport filter (if any):", end="")
+                    for i, transport in enumerate(transports):
+                        print(f"\n{i+1}: {transport}", end="")
+                    print(f"\n{len(transports)+1}: No Filter")
                     transport_filter = readkey()
-                    while not transport_filter in ("1", "2", "3", "4"):
+                    while not transport_filter in (str(i+1) for i in range (len(transports)+1)):
                         transport_filter = readkey()
                     transport_filter = int(transport_filter)
                     
                     print("\nProcessing top journeys...")
-                    processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2)
+                    processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2, transports)
                     if len(processed_journeys) == 0:
                         print("\x1b[31mNo possible journeys found!\033[0m")
                     else:
