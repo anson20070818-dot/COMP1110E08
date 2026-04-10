@@ -12,3 +12,10 @@ def SummarizeNetwork(network):
             n_segments += 1
     
     return n_stops, n_segments, n_bsegments, n_wsegments, n_msegments
+
+def get_distinct_transport(network):
+    transport_mode_distinct = []
+    for stop in network:
+        for segment in network[stop]:
+          transport_mode_distinct.append(segment[3])
+    return list(set(transport_mode_distinct))
