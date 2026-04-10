@@ -22,7 +22,7 @@ def OnStart():
 ███████▀ ██ ██ ██ ▀█▄██ ██     ██     ███       ▀██▀█ ████▀ ██ ██▄ ▀████      ███ ██    ▀█▄██ ██ ██ ▄▄▄█▀ ████▀ ▀███▀ ██     ██     ███  ███ ▀████  ▀█▀  ██▄ ▄▄▄█▀ ▀███▀ ██    
                                                                                                           ██                                                                   
                                                                                                           ▀▀                                                                   """
-    print(banner+"\nThanks for using Smart Public Transport Advisor!\n<Please read the README.md for detailed user guide>\n")
+    print("\x1b[34m"+banner+"\x1b[0m\nThanks for using Smart Public Transport Advisor!\n<Please refer to the README.md for detailed user guide>\n")
 
 def ClearLines(n):
     print("\033[F\033[K"*n, flush=True, end="")
@@ -76,22 +76,33 @@ def main():
                     print("\nChoose transport filter (if any):", end="")
                     for i, transport in enumerate(transports):
                         print(f"\n{i+1}: {transport}", end="")
-                    print(f"\n{len(transports)+1}: No Filter")
-                    transport_filter = readkey()
-                    while not transport_filter in (str(i+1) for i in range (len(transports)+1)):
-                        transport_filter = readkey()
-                    transport_filter = int(transport_filter)
-                    
+                    print(f"\n{len(transports)+1}: Finish Filter Input")
+                    transport_input = readkey()
+                    transport_filter = list()
+                    while transport_input != str(len(transports) + 1):
+                        if transport_input in (str(i+1) for i in range (len(transports))):
+                            transport_filter.append(transports.pop(int(transport_input) - 1))
+                            if len(transports) == 1:
+                                break
+                            ClearLines(len(transports) + 2)
+                            for i, transport in enumerate(transports):
+                                print(f"{i+1}: {transport}")
+                            print(f"{len(transports)+1}: Finish Filter Input")
+                        transport_input = readkey()
+
                     print("\nProcessing top journeys...")
-                    processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2, transports)
+                    processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2)
                     if len(processed_journeys) == 0:
                         print("\x1b[31mNo possible journeys found!\033[0m")
                     else:
                         print("\033[32mProcessing finished!\033[0m\n")
+                        filter_string = "Any Tranport" if len(transport_filter) == 0 else f"No {transport_filter[0]}"
+                        for i in range(1, len(transport_filter)):
+                            filter_string += f", {transport_filter[i]}"
                         if preference2 == 4:
-                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
+                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "\x1b[0mwith\033[33m", filter_string+"\x1b[0m:")
                         else:
-                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "then", ("Fastest", "Cheapest", "Least Transfers")[preference2-1], "\x1b[0mwith\033[33m", ("No Bus", "No Metro", "No Walking", "Any Transport")[transport_filter-1]+"\x1b[0m:")
+                            print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "then", ("Fastest", "Cheapest", "Least Transfers")[preference2-1], "\x1b[0mwith\033[33m", filter_string+"\x1b[0m:")
                         for i in range(0, 3):
                             if len(processed_journeys) > i:
                                 print(f"{origin} ", end="")
@@ -121,12 +132,15 @@ def main():
 
         elif command == "3":
             ClearLines(5)
-            n_stops, n_segments, n_bsegments, n_wsegments, n_msegments = network_analysis.SummarizeNetwork(network)
+            n_stops, n_segments, t_segments = network_analysis.SummarizeNetwork(network)
             print("Stops: ", end="")
             for stop in network:
                 print(stop+", ", end="")
-            print(f"\b\b  \nTotal Stops: {n_stops:<10}Total Segments: {n_segments}\nBus Segments: {n_bsegments:<9}Metro Segments: {n_msegments:<7}Walking Segments: {n_wsegments}\n")
+            print(f"\b\b  \nTotal Stops: {n_stops:<14}Total Segments: {n_segments}")
+            for transport, segments in t_segments.items():
+                print(f"{transport} Segments: {segments:<{16-len(transport)}}", end="")
             
+            print("\n")
             if len(network) == 0:
                 print("Available commands:\n\x1b[31m1: Generate Journeys (Network requires loading first!)\x1b[0m\n2: Load Network\n3: View Network Summary\n4: Quit Program")
             else:
