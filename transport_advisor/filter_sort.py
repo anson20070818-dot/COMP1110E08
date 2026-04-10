@@ -37,8 +37,6 @@ def count_transfer(transport_mode):
     if len(transport_mode) == 1:
         return 0
     count = 0
-    if transport_mode[0] == 'Walking' and (('Bus' in transport_mode) or ('MTR' in transport_mode)):
-        count += 1
     while ('Walking' in transport_mode):
         pos = transport_mode.index('Walking')
         if pos == 0 or pos == len(transport_mode) - 1:
@@ -51,6 +49,7 @@ def count_transfer(transport_mode):
         if transport_mode[i] != transport_mode[i+1]:
             count += 1
     return count
+
 
 
 def get_transport_mode(candidate):
