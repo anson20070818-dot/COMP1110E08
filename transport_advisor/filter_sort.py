@@ -1,6 +1,7 @@
-def filter_sort(candidates, filter_transports, first_preference, second_preference):
+def filter_sort_group(candidates, filter_transports, first_preference, second_preference):
     filtered_candidates = filter_mode(candidates,filter_transports)
-    return rank(filtered_candidates, first_preference, second_preference)
+    sorted_candidates = rank(filtered_candidates, first_preference, second_preference)
+    return group_segment(sorted_candidates)
 
 
 def filter_mode(candidates, filter_transports):    
@@ -8,9 +9,9 @@ def filter_mode(candidates, filter_transports):
        return candidates
     filtered_candidates = []
     for candidate in candidates:
-        transport_of_candidate = get_transport_modes(candidate)
+        transport_of_candidate = get_transport_mode(candidate)
         exists = False
-        for transport in filter_transports: 
+        for transport in filter_transports:
            if transport in transport_of_candidate:
                exists = True
                break
@@ -25,18 +26,41 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
             second_preference = 2
         else:
             second_preference = 1
-    final_candidates = []
+    sorted_candidates = []
     for candidate in candidates:
-        route = []
         time, fare = 0, 0
-        number_of_transfer = count_transfer(get_transport_modes(candidate))
+        number_of_transfer = count_transfer(get_transport_mode(candidate))
         for segment in candidate:
             time += segment[1]
             fare += segment[2]
-            route.append((segment[0],segment[3]))
-        final_candidates.append([route,time,fare, number_of_transfer])
+        sorted_candidates.append([candidate,time,fare, number_of_transfer])
     third_preference = list({1,2,3}-{first_preference,second_preference})[0]
-    return sorted(final_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
+    sorted_candidates = sorted(sorted_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
+    if len(sorted_candidates) > 3:
+        return [sorted_candidates[i] for i in range(3)]
+    else:
+        return sorted_candidates
+
+
+def group_segment(candidates):
+    final_candidates = []
+    for candidate in candidates:
+        segment = 0
+        grouped_candidate =[]
+        while segment < len(candidate[0])-1:
+            stop_list = [candidate[0][segment][0]]
+            duration = candidate[0][segment][1]
+            transport = candidate[0][segment][3]
+            while (segment < len(candidate[0])-1) and (candidate[0][segment][3] == candidate[0][segment+1][3]):
+                segment += 1
+                stop_list.append(candidate[0][segment][0])
+                duration += candidate[0][segment][1]
+            grouped_candidate.append([stop_list, transport, duration])
+            segment += 1
+            if (segment == len(candidate[0])-1) and (candidate[0][segment-1][3] != candidate[0][segment][3]):
+                grouped_candidate.append([[candidate[0][segment][0]], candidate[0][segment][3], candidate[0][segment][1]])
+        final_candidates.append([grouped_candidate, candidate[1], candidate[2], candidate[3]])
+    return final_candidates
 
 
 def count_transfer(transport_mode):
@@ -57,7 +81,7 @@ def count_transfer(transport_mode):
     return count
 
 
-def get_transport_modes(candidate):
+def get_transport_mode(candidate):
     transport_of_candidate = []
     for segment in candidate:
         transport_of_candidate.append(segment[3])
