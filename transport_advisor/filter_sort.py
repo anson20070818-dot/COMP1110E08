@@ -1,5 +1,5 @@
 def filter_mode(candidates, filter, transports):    
-    if filter == len(transports):
+    if filter == len(transports)+1:
        return candidates
     filtered_candidates = []
     for candidate in candidates:
