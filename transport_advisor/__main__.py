@@ -91,7 +91,8 @@ def main():
                         transport_input = readkey()
 
                     print("\nProcessing top journeys...")
-                    processed_journeys = filter_sort.filter_sort(journeys, transport_filter, preference1, preference2)
+                    processed_journeys = filter_sort.filter_sort_group(journeys, transport_filter, preference1, preference2)
+
                     if len(processed_journeys) == 0:
                         print("\x1b[31mNo possible journeys found!\033[0m")
                     else:
@@ -103,13 +104,17 @@ def main():
                             print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "\x1b[0mwith\033[33m", filter_string+"\x1b[0m:")
                         else:
                             print("Top 3 journeys ranked by\033[33m", ("Fastest", "Cheapest", "Least Transfers")[preference1-1], "then", ("Fastest", "Cheapest", "Least Transfers")[preference2-1], "\x1b[0mwith\033[33m", filter_string+"\x1b[0m:")
-                        for i in range(0, 3):
-                            if len(processed_journeys) > i:
-                                print(f"{origin} ", end="")
-                                for segment in processed_journeys[i][0]:
-                                    print(f"<{segment[1]}>--> {segment[0]} ", end="")
-                                print(f"\nTotal duration: {processed_journeys[i][1]:<6}Total cost: {processed_journeys[i][2]:<10}Total transfers: {processed_journeys[i][3]:<5}\n")
-                        
+                        last_stop = origin
+                        for journey in processed_journeys:
+                            for grouped_segments in journey[0]:
+                                print(f"{grouped_segments[1]}: {last_stop}", end="")
+                                for stop in grouped_segments[0]:
+                                    print(f" -> {stop}", end="")
+                                print(f" ({grouped_segments[2]} minutes)")
+                                last_stop = grouped_segments[0][-1]
+                            last_stop = origin
+                            print(f"Total duration: {journey[1]:<6}Total cost: {journey[2]:<10}Total transfers: {journey[3]:<5}\n")
+                    
                     print("\nAwaiting next command...\n1: View Top Journeys\n2: Return to Start")
 
                 command = readkey()
