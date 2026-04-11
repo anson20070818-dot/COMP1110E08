@@ -47,6 +47,8 @@ def group_segment(candidates):
     for candidate in candidates:
         segment = 0
         grouped_candidate =[]
+        if len(candidate[0]) == 1:
+            grouped_candidate.append([[candidate[0][segment][0]], candidate[0][segment][3], candidate[0][segment][1]])
         while segment < len(candidate[0])-1:
             stop_list = [candidate[0][segment][0]]
             duration = candidate[0][segment][1]
