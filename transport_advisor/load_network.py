@@ -28,6 +28,12 @@ def load_network(filename="network.csv"):
             try:
                 segment = []
                 segment_reverse = []
+                if int(row['Duration']) < 0:
+                    print(f"\033[33mWarning: Skipped row {i+1} in the file due to negative duration\033[0m")
+                    continue
+                if float(row['Cost']) < 0:
+                    print(f"\033[33mWarning: Skipped row {i+1} in the file due to negative cost\033[0m")
+                    continue
                 for j in ['To_Stop','Duration','Cost','Mode']:
                     if j in ['To_Stop','Mode']:
                         segment.append(row[j].strip())
