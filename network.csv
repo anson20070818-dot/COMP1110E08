@@ -1,0 +1,40 @@
+From_Stop,To_Stop,Duration,Cost,Mode
+University,Central Plaza,4,8,Metro
+Central Plaza,Office Hub,4,7,Metro
+Office Hub,Seaside Mall,4,8,Metro
+University,Bank Tower,6,2,Bus
+Bank Tower,Restaurant ABC,5,1,Tram
+Restaurant ABC,Clothing Shop,4,1,Bus
+Clothing Shop,Residential Estate,7,2,Bus
+Residential Estate,Market Square,6,1,Minibus
+Market Square,Tech Park,4,1,Walking
+Tech Park,Seaside Mall,5,1,Bus
+University,Restaurant ABC,5,4,Metro
+Restaurant ABC,City Library,5,3,Metro
+City Library,Office Hub,5,3,Metro
+Office Hub,Market Square,3,2,Minibus
+Market Square,Seaside Mall,3,3,Metro
+Bank Tower,Central Plaza,4,3,Tram
+Restaurant ABC,Central Plaza,3,5,Metro
+Central Plaza,City Library,4,2,Tram
+City Library,Sports Centre,4,2,Bus
+Sports Centre,Community Clinic,4,2,Minibus
+Community Clinic,Harbour Pier,4,2,Ferry
+Harbour Pier,Seaside Mall,4,2,Bus
+Central Plaza,Museum,5,2,Walking
+Museum,Office Hub,4,2,Walking
+Museum,Harbour Pier,5,3,Ferry
+City Library,Residential Estate,4,2,Tram
+Residential Estate,Community Clinic,4,1,Walking
+Community Clinic,Market Square,5,1,Minibus
+Sports Centre,Market Square,5,2,Metro
+Residential Estate,Tech Park,5,2,Bus
+Office Hub,Harbour Pier,4,4,Metro
+University,Clothing Shop,7,2,Bus
+Bank Tower,City Library,6,2,Tram
+Restaurant ABC,Sports Centre,6,3,Metro
+Clothing Shop,Sports Centre,5,2,Bus
+Central Plaza,Community Clinic,6,2,Minibus
+City Library,Museum,6,1,Walking
+Residential Estate,Harbour Pier,6,3,Ferry
+Market Square,Harbour Pier,4,2,Minibus
