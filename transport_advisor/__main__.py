@@ -13,7 +13,16 @@ except ImportError:
     print("\x1b[31mMissing dependency detected!\x1b[0m Please run: pip install -r requirements.txt")
     exit()
 
-def OnStart():
+def OnStart() -> None:
+    """
+    Prints title screen and greeting
+
+    Args:
+        None
+    
+    Returns:
+        None
+    """
     banner = """                                                                                                                                                                               
  ▄▄▄▄▄▄▄                              ▄▄▄▄▄▄▄         ▄▄    ▄▄             ▄▄▄▄▄▄▄▄▄                                                  ▄▄▄▄      ▄▄                             
 █████▀▀▀                       ██     ███▀▀███▄       ██    ██ ▀▀          ▀▀▀███▀▀▀                                         ██     ▄██▀▀██▄    ██       ▀▀                    
@@ -24,10 +33,19 @@ def OnStart():
                                                                                                           ▀▀                                                                   """
     print("\x1b[34m"+banner+"\x1b[0m\nThanks for using Smart Public Transport Advisor!\n<Please refer to the README.md for detailed user guide>\n")
 
-def ClearLines(n):
+def ClearLines(n: int) -> None:
+    """
+    Remove all text from n lines counting from the bottom
+
+    Args:
+        n (int): Number of lines to clear
+    
+    Returns:
+        None
+    """
     print("\033[F\033[K"*n, flush=True, end="")
 
-def main():
+def main() -> None:
     OnStart()
     print("Available commands:\n\x1b[31m1: Generate Journeys (Network requires loading first!)\x1b[0m\n2: Load Network\n3: View Network Summary\n4: Quit Program")
     network = dict()
