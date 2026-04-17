@@ -28,7 +28,7 @@ def get_distinct_transport(network: dict) -> list:
     Get the dictinct transport modes for the given network.
 
     Args:
-        network (dictionary): The information of segments of the network.
+        network (dict): A network with stops as key, a list of segments as value
 
     Returns:
         list: Stores all the (distinct) transport modes of a network
