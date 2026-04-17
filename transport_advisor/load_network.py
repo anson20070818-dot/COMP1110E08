@@ -1,7 +1,18 @@
 import csv
 from pathlib import Path
 
-def load_network(filename="network.csv"):
+def load_network(filename: str = "network.csv") -> dict | None:
+    """
+    Fetch network data from the data folder
+
+    Args:
+        filename (string): Name of the network csv file, default network.csv
+
+    Returns:
+        Dict or None: Dictionary of processed data with stops as keys and
+        segments as values if file is found and there is at least 1 good row,
+        else None
+    """
     if filename == "":
         filename = "network.csv"
         
