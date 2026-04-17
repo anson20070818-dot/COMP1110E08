@@ -8,7 +8,7 @@ def find_path(current: str, destination: str, candidate: list, candidates: list,
         destination (string): The destination of the journey.
         candidate (list): The list with stop information of a path.
         candidates (list): The list with all candidate.
-        network (dictionary): The information of segments of the network.
+        network (dict): A network with stops as key, a list of segments as value
         visited (list): The list with all visited stops.
 
     Returns:
@@ -36,7 +36,7 @@ def get_candidates(origin: str,destination: str,network: dict) -> list:
     Args:
         origin (string): The origin of the journey.
         destination (string): The destination of the journey.
-        network (dictionary): The information of segments of the network.
+        network (dict): A network with stops as key, a list of segments as value
 
     Returns:
         list: Stores all possible candidate for the given args.
