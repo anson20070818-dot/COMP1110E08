@@ -9,7 +9,7 @@ def filter_sort_group(candidates: list, filter_transports: list, first_preferenc
         second_preference (int): The int representing the second preference.
 
     Returns:
-        list: The list store candidates is filterd, sorted and grouped according to the filter and preferences.
+        list: The list store candidates that is filterd, sorted and grouped according to the filter and preferences.
     """   
     filtered_candidates = filter_mode(candidates,filter_transports)
     sorted_candidates = rank(filtered_candidates, first_preference, second_preference)
