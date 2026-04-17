@@ -1,4 +1,15 @@
-def SummarizeNetwork(network):
+def SummarizeNetwork(network: dict) -> tuple[int, int, dict]:
+    """
+    Reads network and gets total stop and segments of each transport
+
+    Args:
+        network (dict): A network with stops as key, a list of segments as value
+    
+    Returns:
+        int: Number of stops
+        int: Number of segments
+        dict: Transport mode (key) & Number of segments of transport (value)
+    """
     n_stops = len(network)
     n_segments = 0
     t_segments = dict()
@@ -21,7 +32,6 @@ def get_distinct_transport(network: dict) -> list:
 
     Returns:
         list: Stores all the (distinct) transport modes of a network
-        
     """
     transport_mode_distinct = []
     for stop in network:
