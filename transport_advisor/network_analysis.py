@@ -12,7 +12,17 @@ def SummarizeNetwork(network):
     
     return n_stops, n_segments, t_segments
 
-def get_distinct_transport(network):
+def get_distinct_transport(network: dict) -> list:
+    """
+    Get the dictinct transport modes for the given network.
+
+    Args:
+        network (dictionary): The information of segments of the network.
+
+    Returns:
+        list: Stores all the (distinct) transport modes of a network
+        
+    """
     transport_mode_distinct = []
     for stop in network:
         for segment in network[stop]:
