@@ -1,10 +1,32 @@
-def filter_sort_group(candidates, filter_transports, first_preference, second_preference):
+def filter_sort_group(candidates: list, filter_transports: list, first_preference: int, second_preference: int) -> list:
+    """
+    Pass the arguments to the functions filter_mode(), rank() and group_segment() to filter, sort and group the candidates.
+
+    Args:
+        candidates (list): The list storing all the candidate.
+        filter_transports (list): The list storing the transport that needs to be filtered.
+        first_preference (int): The int representing the first preference.
+        second_preference (int): The int representing the second preference.
+
+    Returns:
+        list: The list store candidates is filterd, sorted and grouped according to the filter and preferences.
+    """   
     filtered_candidates = filter_mode(candidates,filter_transports)
     sorted_candidates = rank(filtered_candidates, first_preference, second_preference)
     return group_segment(sorted_candidates)
 
 
-def filter_mode(candidates, filter_transports):    
+def filter_mode(candidates: list, filter_transports: list) -> list:
+    """
+    Filter the candidates to exclude the candidate with transport in the list filter_transports.
+
+    Args:
+        candidates (list): The list storing all the candidate.
+        filter_transports (list): The list storing the transport that needs to be filtered.
+
+    Returns:
+        list: The list store candidates which doesn not contain the transport that needs to be filtered.
+    """   
     if len(filter_transports) == 0:
        return candidates
     filtered_candidates = []
@@ -20,7 +42,18 @@ def filter_mode(candidates, filter_transports):
     return filtered_candidates
 
 
-def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 3:transfers, 4: no preference
+def rank(candidates: list, first_preference: int, second_preference: int) -> list:    # 1:time, 2:cost, 3:transfers, 4: no preference
+    """
+    Sort the candidates according to the preferences.
+
+    Args:
+        candidates (list): The list storing all the candidate.
+        first_preference (int): The int representing the first preference.
+        second_preference (int): The int representing the second preference.
+
+    Returns:
+        list: The list with the top 3 candidate sorted according to the preferences
+    """
     if second_preference == 4:
         if first_preference == 1:
             second_preference = 2
@@ -42,7 +75,16 @@ def rank(candidates, first_preference, second_preference):    # 1:time, 2:cost, 
         return sorted_candidates
 
 
-def group_segment(candidates):
+def group_segment(candidates: list) -> list:
+    """
+    Group the segments of the candidates by transport mode.
+
+    Args:
+        candidates (list): The list storing all the candidate.
+
+    Returns:
+        list: The list storing each candidate in which neighboring segments are grouped by transport mode.
+    """
     final_candidates = []
     for candidate in candidates:
         segment = 0
@@ -65,7 +107,16 @@ def group_segment(candidates):
     return final_candidates
 
 
-def count_transfer(transport_mode):
+def count_transfer(transport_mode: list) -> int:
+    """
+    Get the number of transfer for the given list with transport_modes of a path.
+
+    Args:
+        transport_mode (list): The list storing the transport_mode of a path.
+
+    Returns:
+        int: Number of transfer.
+    """
     if len(transport_mode) == 1:
         return 0
     count = 0
@@ -83,7 +134,16 @@ def count_transfer(transport_mode):
     return count
 
 
-def get_transport_mode(candidate):
+def get_transport_mode(candidate: list) -> list:
+    """
+    Get the transport modes of the given candidate.
+
+    Args:
+        candidate (list): The list storing the path of the journey.
+
+    Returns:
+        list: Stores the transport modes of the given candidate (in the same order of the path).
+    """
     transport_of_candidate = []
     for segment in candidate:
         transport_of_candidate.append(segment[3])
