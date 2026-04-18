@@ -39,7 +39,7 @@ def load_network(filename: str = "network.csv") -> dict | None:
             try:
                 segment = []
                 segment_reverse = []
-                if int(row['Duration']) < 0:
+                if float(row['Duration']) < 0:
                     print(f"\033[33mWarning: Skipped row {i+1} in the file due to negative duration\033[0m")
                     continue
                 if float(row['Cost']) < 0:
@@ -49,7 +49,7 @@ def load_network(filename: str = "network.csv") -> dict | None:
                     if j in ['To_Stop','Mode']:
                         segment.append(row[j].strip())
                     elif j == 'Duration':
-                        segment.append(int(row[j]))
+                        segment.append(float(row[j]))
                     else:
                         segment.append(float(row[j]))
                 if row['From_Stop'].strip() in segments:
@@ -61,7 +61,7 @@ def load_network(filename: str = "network.csv") -> dict | None:
                     if j in ['From_Stop','Mode']:
                         segment_reverse.append(row[j].strip())
                     elif j == 'Duration':
-                        segment_reverse.append(int(row[j]))
+                        segment_reverse.append(float(row[j]))
                     else:
                         segment_reverse.append(float(row[j]))
                 if row['To_Stop'].strip() in segments:
