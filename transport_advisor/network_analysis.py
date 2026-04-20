@@ -37,4 +37,4 @@ def get_distinct_transport(network: dict) -> list:
     for stop in network:
         for segment in network[stop]:
           transport_mode_distinct.append(segment[3])
-    return list(set(transport_mode_distinct))
+    return sorted(list(set(transport_mode_distinct)))
