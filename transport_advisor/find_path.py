@@ -17,23 +17,15 @@ def find_path(current: str, destination: str, candidate: list, candidates: list,
     """
     if current in network:
         for to_stop in network[current]:
-            if to_stop[0] == destination:
-                # Reached destination: append the final stop and save a copy of the complete path
-                candidate.append(tuple(to_stop))
-                candidates.append(list(candidate))
-
-                # Backtrack: remove the destination so the loop can explore other routes
-                candidate.pop()
-            elif to_stop[0] not in visited:
-                # Cycle avoidance: only visit stops we haven't seen in the current path
+            if to_stop[0] == destination:            # Reached destination
+                candidate.append(tuple(to_stop))     # append the final stop
+                candidates.append(list(candidate))   # save a copy of the complete path
+                candidate.pop()    # Backtrack: remove the destination so the loop can explore other routes
+            elif to_stop[0] not in visited:    # Cycle avoidance: only visit stops we haven't seen in the current path
                 visited.append(to_stop[0])
                 candidate.append(tuple(to_stop))
-
-                # Recursively search from this new stop
-                find_path(to_stop[0], destination, candidate, candidates, network, visited)
-
-                # Backtrack: undo the current step to explore alternative branches from the previous stop
-                candidate.pop()
+                find_path(to_stop[0], destination, candidate, candidates, network, visited)   # Recursively search from this new stop
+                candidate.pop()    # Backtrack: undo the current step to explore alternative branches from the previous stop
                 visited.pop()
                     
 
