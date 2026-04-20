@@ -67,8 +67,8 @@ def rank(candidates: list, first_preference: int, second_preference: int) -> lis
             time += segment[1]
             fare += segment[2]
         sorted_candidates.append([candidate,time,fare, number_of_transfer])
-    third_preference = list({1,2,3}-{first_preference,second_preference})[0]
-    sorted_candidates = sorted(sorted_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))
+    third_preference = list({1,2,3}-{first_preference,second_preference})[0]   # Use set difference to dynamically determine the tie-breaker preference
+    sorted_candidates = sorted(sorted_candidates, key = lambda x: (x[first_preference], x[second_preference], x[third_preference]))   # Sort journeys sequentially by 1st, 2nd, and 3rd preferences using a tuple key
     if len(sorted_candidates) > 3:
         return [sorted_candidates[i] for i in range(3)]
     else:
@@ -95,12 +95,19 @@ def group_segment(candidates: list) -> list:
             stop_list = [candidate[0][segment][0]]
             duration = candidate[0][segment][1]
             transport = candidate[0][segment][3]
+
+            # Inner loop: If the next segment uses the exact same transport mode, 
+            # merge them by accumulating the total duration and appending the next stop.
             while (segment < len(candidate[0])-1) and (candidate[0][segment][3] == candidate[0][segment+1][3]):
                 segment += 1
                 stop_list.append(candidate[0][segment][0])
                 duration += candidate[0][segment][1]
+
+            # Save the fully grouped leg of the journey
             grouped_candidate.append([stop_list, transport, duration])
             segment += 1
+
+            # Edge case: Check if the very last segment of the journey is a different transport mode from the group that is just processed
             if (segment == len(candidate[0])-1) and (candidate[0][segment-1][3] != candidate[0][segment][3]):
                 grouped_candidate.append([[candidate[0][segment][0]], candidate[0][segment][3], candidate[0][segment][1]])
         final_candidates.append([grouped_candidate, candidate[1], candidate[2], candidate[3]])
@@ -122,14 +129,14 @@ def count_transfer(transport_mode: list) -> int:
     count = 0
     while ('Walking' in transport_mode):
         pos = transport_mode.index('Walking')
-        if pos == 0 or pos == len(transport_mode) - 1:
+        if pos == 0 or pos == len(transport_mode) - 1:         # Walking at the very beginning or very end of a journey doesn't count as a transfer
             transport_mode.pop(pos)
         else:
-            if transport_mode[pos-1] == transport_mode[pos+1]:
-                count += 1
+            if transport_mode[pos-1] == transport_mode[pos+1]: # If walking bridges the exact same transport (e.g., Bus -> Walk -> Bus),
+                count += 1                                     # it counts as 1 transfer. Otherwise, it bridges different modes.
             transport_mode.pop(pos)
     for i in range(len(transport_mode)-1):
-        if transport_mode[i] != transport_mode[i+1]:
+        if transport_mode[i] != transport_mode[i+1]:           # Count transfers for all remaining transport changes
             count += 1
     return count
 
