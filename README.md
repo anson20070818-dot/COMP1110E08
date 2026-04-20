@@ -145,7 +145,7 @@ Now, you're all set to generate routes! Run `Generate Journeys` and input the na
 
 Run `View Top Journeys` and select your preferences, you can select to not have a 2nd preference. Then, you can filter out any transport mode(s) and select `Finish Filter Input` once you're done.
 
-Your routes will then be processed immediately and the top 3 routes according to your preferences will be displayed in descending order!
+Your routes will then be processed immediately and the top 3 routes according to your preferences will be displayed in ascending order!
 
 ![Results](https://dl.dropboxusercontent.com/scl/fi/ir1iy3ermhyxrqt8xsl9p/Results.png?rlkey=d7msel3ibqj30xmvwknhvpphw&st=u4lewmeg?raw=1 "Results")
 
