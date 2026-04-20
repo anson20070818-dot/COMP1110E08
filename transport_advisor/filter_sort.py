@@ -95,20 +95,13 @@ def group_segment(candidates: list) -> list:
             stop_list = [candidate[0][segment][0]]
             duration = candidate[0][segment][1]
             transport = candidate[0][segment][3]
-
-            # Inner loop: If the next segment uses the exact same transport mode, 
-            # merge them by accumulating the total duration and appending the next stop.
-            while (segment < len(candidate[0])-1) and (candidate[0][segment][3] == candidate[0][segment+1][3]):
+            while (segment < len(candidate[0])-1) and (candidate[0][segment][3] == candidate[0][segment+1][3]): #merge the next segment if it has the same transport mode
                 segment += 1
-                stop_list.append(candidate[0][segment][0])
-                duration += candidate[0][segment][1]
-
-            # Save the fully grouped leg of the journey
-            grouped_candidate.append([stop_list, transport, duration])
+                stop_list.append(candidate[0][segment][0])    # append the next stop
+                duration += candidate[0][segment][1]          #accumulate the total duration
+            grouped_candidate.append([stop_list, transport, duration])   # Save the fully grouped leg of the journey
             segment += 1
-
-            # Edge case: Check if the very last segment of the journey is a different transport mode from the group that is just processed
-            if (segment == len(candidate[0])-1) and (candidate[0][segment-1][3] != candidate[0][segment][3]):
+            if (segment == len(candidate[0])-1) and (candidate[0][segment-1][3] != candidate[0][segment][3]):   # Check if the last segment of the journey has a different transport mode from the group that is just processed
                 grouped_candidate.append([[candidate[0][segment][0]], candidate[0][segment][3], candidate[0][segment][1]])
         final_candidates.append([grouped_candidate, candidate[1], candidate[2], candidate[3]])
     return final_candidates
