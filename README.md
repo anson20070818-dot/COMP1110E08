@@ -190,8 +190,3 @@ You can enter any name for the stop and transport mode, note that any difference
 Distributed under the Apache-2.0 license. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[menu]: https://www.dropbox.com/scl/fi/92ys356t0qxeircdsohwl/Menu.png?rlkey=kw4p2e7olhti6io9twy3djdvj&st=aj3lu5v7?raw=1
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
