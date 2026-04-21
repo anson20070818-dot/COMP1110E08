@@ -1,7 +1,8 @@
 import csv
 from pathlib import Path
+from typing import Union
 
-def load_network(filename: str = "network.csv") -> dict | None:
+def load_network(filename: str = "network.csv") -> Union[dict, None]:
     """
     Fetch network data from the data folder
 
