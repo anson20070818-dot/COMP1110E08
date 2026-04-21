@@ -77,9 +77,13 @@ Our project is built entirely with Python! So you'll need the following
    git clone https://github.com/anson20070818-dot/COMP1110E08.git
    cd COMP1110E08
    ```
-2. Install the dependencies using
+2. For Windows, install the dependencies using
    ```sh
    pip install -r requirements.txt
+   ```
+   For Linux/macOS, install the dependencies using
+   ```sh
+   pip3 install -r requirements.txt
    ```
 3. For Windows, run the program from root using
    ```sh
