@@ -67,7 +67,7 @@ Please read the following to understand how to use our transport advisor.
 ### Prerequisites
 
 Our project is built entirely with Python! So you'll need the following
-- Python: Version 3.8 or higher installed
+- Python: Version 3.9 or higher installed
 - Pip: Comes with Python
 
 ### Installation and Execution
