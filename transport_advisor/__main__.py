@@ -1,3 +1,4 @@
+# Ensure program is executed as a module
 try:
     import transport_advisor.find_path as find_path
     import transport_advisor.filter_sort as filter_sort
@@ -7,6 +8,7 @@ except ImportError:
     print("\033[33mPlease run the following from the root directory:\x1b[0m python -m transport_advisor")
     exit()
 
+# Ensure dependencies are installed
 try:
     from readchar import readkey
 except ImportError:
@@ -50,8 +52,10 @@ def main() -> None:
     print("Available commands:\n\x1b[31m1: Generate Journeys (Network requires loading first!)\x1b[0m\n2: Load Network\n3: View Network Summary\n4: Quit Program")
     network = dict()
     command = readkey()
+    # Quit Program if 4
     while command != "4":
-        if command == "1" and len(network) != 0:
+        # Generate Journeys
+        if command == "1" and len(network) != 0:    # Prevent command execution when network is not loaded
             ClearLines(5)
             origin = input("Enter origin: ")
             while not(origin in network):
@@ -81,12 +85,13 @@ def main() -> None:
                         preference1 = readkey()
                     preference1 = int(preference1)
                     
+                    # Dynamically hide the first preference from the list of second-preference choices
                     secondprompt = ("\n1: Cheapest Journeys\n2: Journeys with Fewest Transfers", "\n1: Fastest Journeys\n2: Journeys with Fewest Transfers", "\n1: Fastest Journeys\n2: Cheapest Journeys")[preference1-1]
                     print("\nChoose second preference:"+secondprompt+"\n3: No Preference")
                     preference2 = readkey()
                     while not preference2 in ("1", "2", "3"):
                         preference2 = readkey()
-                    if preference1 == 1 or (preference1 == 2 and preference2 == "2") or preference2 == "3": #accomodate for decrement of command numbers
+                    if preference1 == 1 or (preference1 == 2 and preference2 == "2") or preference2 == "3": # Correct index values of second preference
                         preference2 = int(preference2) + 1
                     preference2 = int(preference2)
                     
@@ -99,7 +104,7 @@ def main() -> None:
                     transport_filter = list()
                     while transport_input != str(len(transports) + 1):
                         if transport_input in (str(i+1) for i in range (len(transports))):
-                            transport_filter.append(transports.pop(int(transport_input) - 1))
+                            transport_filter.append(transports.pop(int(transport_input) - 1)) # Remove chosen mode from available options
                             if len(transports) == 1:
                                 break
                             ClearLines(len(transports) + 2)
@@ -138,7 +143,7 @@ def main() -> None:
                 command = readkey()
 
             print("\nAvailable commands:\n1: Generate Journeys\n2: Load Network\n3: View Network Summary\n4: Quit Program")
-
+        # Load Network
         elif command == "2":
             ClearLines(5)
             filename = input("Enter network file name (with path): ")
@@ -152,7 +157,7 @@ def main() -> None:
                 print("Available commands:\n\x1b[31m1: Generate Journeys (Network requires loading first!)\x1b[0m\n2: Load Network\n3: View Network Summary\n4: Quit Program")
             else:
                 print("Available commands:\n1: Generate Journeys\n2: Load Network\n3: View Network Summary\n4: Quit Program")
-
+        # View Network Summary
         elif command == "3":
             ClearLines(5)
             n_stops, n_segments, t_segments = network_analysis.SummarizeNetwork(network)
