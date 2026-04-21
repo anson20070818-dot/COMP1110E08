@@ -20,7 +20,8 @@ def load_network(filename: str = "network.csv") -> Union[dict, None]:
     segments = dict()  
 
     try:
-        file_dir = Path(__file__).parent.parent
+        # Expects: transport_advisor/data/network.csv
+        file_dir = Path(__file__).parent.parent     # Navigate 2 levels up from this file to find root directory
         file_path = file_dir / "data" / filename
         file = open(file_path, "r", encoding="utf-8")
         reader = csv.DictReader(file)
@@ -39,11 +40,11 @@ def load_network(filename: str = "network.csv") -> Union[dict, None]:
         for i, row in enumerate(reader):
             try:
                 segment = []
-                segment_reverse = []
-                if float(row['Duration']) < 0:
+                segment_reverse = []        # Create reverse segments for bidirectional network
+                if float(row['Duration']) < 0:      # Negative duration is invalid
                     print(f"\033[33mWarning: Skipped row {i+1} in the file due to negative duration\033[0m")
                     continue
-                if float(row['Cost']) < 0:
+                if float(row['Cost']) < 0:          # Negative cost is invalid
                     print(f"\033[33mWarning: Skipped row {i+1} in the file due to negative cost\033[0m")
                     continue
                 for j in ['To_Stop','Duration','Cost','Mode']:
@@ -54,7 +55,7 @@ def load_network(filename: str = "network.csv") -> Union[dict, None]:
                     else:
                         segment.append(float(row[j]))
                 if row['From_Stop'].strip() in segments:
-                    if segment not in segments[row['From_Stop'].strip()]:
+                    if segment not in segments[row['From_Stop'].strip()]:       # Avoid duplicated segments
                         segments[row['From_Stop'].strip()].append(segment)
                 else:
                     segments[row['From_Stop'].strip()] = [segment]
@@ -66,12 +67,12 @@ def load_network(filename: str = "network.csv") -> Union[dict, None]:
                     else:
                         segment_reverse.append(float(row[j]))
                 if row['To_Stop'].strip() in segments:
-                    if segment_reverse not in segments[row['To_Stop'].strip()]:
+                    if segment_reverse not in segments[row['To_Stop'].strip()]:     # Avoid duplicated segments
                         segments[row['To_Stop'].strip()].append(segment_reverse)
                 else:
                     segments[row['To_Stop'].strip()] = [segment_reverse]
                 valid_segments += 1
-            except:
+            except:         # catch formatting errors
                 print(f"\033[33mWarning: Skipped bad row (row {i+1}) in the file\033[0m")
                 continue
 
@@ -81,7 +82,7 @@ def load_network(filename: str = "network.csv") -> Union[dict, None]:
             print("\x1b[31mError: No valid segments in the file!\x1b[0m")
             return None
         
-        if valid_segments*2 > 100:
+        if valid_segments*2 > 100:      # Limit network size to under 101 segments
             print("\x1b[31mError: Total segments exceeded 100! Try a smaller network\x1b[0m")
             return None
 
