@@ -1,4 +1,4 @@
-def SummarizeNetwork(network: dict) -> tuple[int, int, dict]:
+def summarize_network(network: dict) -> tuple[int, int, dict]:
     """
     Reads network and gets total stop and segments of each transport
 
