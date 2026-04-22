@@ -15,7 +15,7 @@ except ImportError:
     print("\x1b[31mMissing dependency detected!\x1b[0m Please run: pip install -r requirements.txt")
     exit()
 
-def OnStart() -> None:
+def on_start() -> None:
     """
     Prints title screen and greeting
 
@@ -35,7 +35,7 @@ def OnStart() -> None:
                                                                                                           ▀▀                                                                   """
     print("\x1b[34m"+banner+"\x1b[0m\nThanks for using Smart Public Transport Advisor!\n<Please refer to the README.md for detailed user guide>\n")
 
-def ClearLines(n: int) -> None:
+def clear_lines(n: int) -> None:
     """
     Remove all text from n lines counting from the bottom
 
@@ -48,7 +48,7 @@ def ClearLines(n: int) -> None:
     print("\033[F\033[K"*n, flush=True, end="")
 
 def main() -> None:
-    OnStart()
+    on_start()
     print("Available commands:\n\x1b[31m1: Generate Journeys (Network requires loading first!)\x1b[0m\n2: Load Network\n3: View Network Summary\n4: Quit Program")
     network = dict()
     command = readkey()
@@ -56,16 +56,16 @@ def main() -> None:
     while command != "4":
         # Generate Journeys
         if command == "1" and len(network) != 0:    # Prevent command execution when network is not loaded
-            ClearLines(5)
+            clear_lines(5)
             origin = input("Enter origin: ")
             while not(origin in network):
-                ClearLines(1)
+                clear_lines(1)
                 origin = input("\x1b[31mStop not found!\x1b[0m\nEnter origin again: ")
             print("")
 
             destination = input("Enter destination: ")
             while not(destination in network) or destination == origin:
-                ClearLines(1)
+                clear_lines(1)
                 if destination == origin:
                     destination = input("\x1b[31mDestination cannot be the same as Origin!\x1b[0m\nEnter destination again: ")
                 else:
@@ -78,7 +78,7 @@ def main() -> None:
             command = readkey()
             while command != "2":
                 if command == "1":
-                    ClearLines(3)
+                    clear_lines(3)
                     print("Choose first preference:\n1: Fastest Journeys\n2: Cheapest Journeys\n3: Journeys with Fewest Transfers")
                     preference1 = readkey()
                     while not preference1 in ("1", "2", "3"):
@@ -107,7 +107,7 @@ def main() -> None:
                             transport_filter.append(transports.pop(int(transport_input) - 1)) # Remove chosen mode from available options
                             if len(transports) == 1:
                                 break
-                            ClearLines(len(transports) + 2)
+                            clear_lines(len(transports) + 2)
                             for i, transport in enumerate(transports):
                                 print(f"{i+1}: {transport}")
                             print(f"{len(transports)+1}: Finish Filter Input")
@@ -145,7 +145,7 @@ def main() -> None:
             print("\nAvailable commands:\n1: Generate Journeys\n2: Load Network\n3: View Network Summary\n4: Quit Program")
         # Load Network
         elif command == "2":
-            ClearLines(5)
+            clear_lines(5)
             filename = input("Enter network file name (with path): ")
             print("\nLoading network file...")
             result = load_network.load_network(filename)
@@ -159,8 +159,8 @@ def main() -> None:
                 print("Available commands:\n1: Generate Journeys\n2: Load Network\n3: View Network Summary\n4: Quit Program")
         # View Network Summary
         elif command == "3":
-            ClearLines(5)
-            n_stops, n_segments, t_segments = network_analysis.SummarizeNetwork(network)
+            clear_lines(5)
+            n_stops, n_segments, t_segments = network_analysis.summarize_network(network)
             print("Stops: ", end="")
             for stop in network:
                 print(stop+", ", end="")
