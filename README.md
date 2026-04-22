@@ -11,7 +11,7 @@
     <a href="https://github.com/anson20070818-dot/COMP1110E08"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/anson20070818-dot/COMP1110E08/blob/main/COMP1110E08_video_demo.mov">View Demo</a>
+    <a href="https://youtu.be/TjtP24Zks2g?si=5bu8mXXISP5QwwJB">View Demo</a>
     &middot;
     <a href="https://github.com/anson20070818-dot/COMP1110E08/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
@@ -155,7 +155,7 @@ Your routes will then be processed immediately and the top 3 routes according to
 
 You can keep running `View Top Journeys` and select different preferences or filters. Once you're done or you want to load a different network, run `Return to Start` to go back to the main menu screen.
 
-_For further demonstation of using our advisor system, please refer to this [video demo](./COMP1110E08_video_demo.mov)!_
+_For further demonstation of using our advisor system, please refer to this [video demo](https://youtu.be/TjtP24Zks2g?si=5bu8mXXISP5QwwJB)!_
 
 ### Network Format
 Your network file must be in .csv format for it to load properly. Each record in the file represents a segment (i.e. a way of going from `From_Stop` to `To_Stop` using the transport `Mode`).
