@@ -120,7 +120,7 @@ def main() -> None:
                         print("\x1b[31mNo possible journeys found!\033[0m")
                     else:
                         print("\033[32mProcessing finished!\033[0m\n")
-                        filter_string = "Any Tranport" if len(transport_filter) == 0 else f"No {transport_filter[0]}"
+                        filter_string = "Any Transport" if len(transport_filter) == 0 else f"No {transport_filter[0]}"
                         for i in range(1, len(transport_filter)):
                             filter_string += f", {transport_filter[i]}"
                         if preference2 == 4:
