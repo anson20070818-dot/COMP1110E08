@@ -61,17 +61,17 @@ All tests below should be run using the default `network.csv` file located in th
 
 <p align="right">(<a href="#testing-top">back to top</a>)</p>
 
-### Scenario 3: Fewest Transfers - Multimodal Journey
+### Scenario 3: Fewest Transfers with Secondary Preference
 **Goal:** Minimise transfers from Central Plaza to Community Clinic, then minimise time.
 
 * **Network File:** `network.csv`
-* **Origin:** `Central Plaza`
+* **Origin:** `University`
 * **Destination:** `Community Clinic`
 * **First Preference:** `3`(Journeys with Fewest Transfers)
 * **Second Preference:** `1`(Fastest Journeys)
 * **Transport Filter:** `7`(Finish Filter Input)
 
-**Expected Result:** All top recommended journeys should show 0 transfers. Because the first preference results in a tie (multiple 0-transfer options), the system should use the secondary preference (Fastest) to determine the final ranking order.
+**Expected Result:** The top journey has 0 transfer while the second and third journey has 1 transfer. Because the first preference results in a tie (1 transfer) in second and third journey, the system should use the secondary preference (Fastest) to determine the final ranking order.
 
 <p align="right">(<a href="#testing-top">back to top</a>)</p>
 
