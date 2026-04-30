@@ -75,17 +75,17 @@ All tests below should be run using the default `network.csv` file located in th
 
 <p align="right">(<a href="#testing-top">back to top</a>)</p>
 
-### Scenario 4: Excluding a Common Mode (Metro)
+### Scenario 4: Multiple Transport Filters and Limited Results
 **Goal:** Find a reasonable route from Bank Tower to Museum without using the Metro.
 
 * **Network File:** `network.csv`
-* **Origin:** `Bank Tower`
-* **Destination:** `Museum`
+* **Origin:** `University`
+* **Destination:** `Restaurant ABC`
 * **First Preference:** `1`(Fastest Journeys)
-* **Second Preference:** `2`(Cheapest Journeys)
-* **Transport Filter:** `3`(Metro) then `6`(Finish Filter Input)
+* **Second Preference:** `1`(Cheapest Journeys)
+* **Transport Filter:** `3`(Metro) then `4`(Tram) then `5`(Finish Filter Input)
 
-**Expected Result:** The program should successfully remove all Metro segments from consideration. The top-ranked result should be a Tram + Walking route with a total duration of 9 minutes.
+**Expected Result:** The program should successfully remove all metro and tram segments from consideration. A journey containing only bus segment will appear as it is the only valid journey.
 
 <p align="right">(<a href="#testing-top">back to top</a>)</p>
 
