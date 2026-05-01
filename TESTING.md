@@ -76,7 +76,7 @@ All tests below should be run using the default `network.csv` file located in th
 <p align="right">(<a href="#testing-top">back to top</a>)</p>
 
 ### Scenario 4: Multiple Transport Filters and Limited Results
-**Goal:** Find a reasonable route from Bank Tower to Museum without using the Metro.
+**Goal:** Find a reasonable route from University to Restaurant ABC without using Metro and Tram.
 
 * **Network File:** `network.csv`
 * **Origin:** `University`
